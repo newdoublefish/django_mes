@@ -1,0 +1,4 @@
+Django==2.0.2
+psycopg2
+xlwt==1.0.0
+xlrd
