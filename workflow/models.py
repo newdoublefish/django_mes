@@ -222,7 +222,7 @@ class TodoList(models.Model):
     def href(self):
         import sys
         imp.reload(sys)
-        sys.setdefaultencoding("utf-8")
+        # sys.setdefaultencoding("utf-8")
         ct = ContentType.objects.get(app_label=self.app_name,model=self.model_name)
         obj = ct.get_object_for_this_type(id=self.inst.object_id)
         title = "%s" % (obj)
