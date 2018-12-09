@@ -124,9 +124,9 @@ class Instance(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        super(Instance,self).save(force_insert,force_update,using,update_fields)
+        super(Instance, self).save(force_insert, force_update, using, update_fields)
         if not self.code:
-            self.code = 'S%05d'%self.id
+            self.code = 'S%05d' % self.id
             self.save()
 
     class Meta:

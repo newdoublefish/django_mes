@@ -72,12 +72,14 @@ def compile_node_handler(request,obj,next_node):
             return users
         elif tp == 4:
             # submitter
-            return request.user
+            users=[]
+            users.append(request.user)
+            return users
         else:
             return None
 
 
-def start(request,app,model,object_id):
+def start(request, app, model, object_id):
     """
 
     :param request:
@@ -107,7 +109,9 @@ def start(request,app,model,object_id):
             next_node = query_first_node[0]
         if next_node:
             next_users = compile_node_handler(request,obj,next_node)
+            print(next_users)
             if len(next_users) > 0:
+            # if next_users is not None:
                 has_next_user = True
     else:
         title = _("No workflow model was found")
@@ -163,10 +167,12 @@ def approve(request,app,model,object_id,operation):
     :param operation:
     :return:
     """
-    if operation not in ('1','3','4'):
+    print(app,model,object_id,operation)
+    if operation not in (1, 3, 4):
+        print(operation)
         messages.warning(request,_("unkown workflow operation"))
         return HttpResponseRedirect("/admin/%s/%s/%s"%(app,model,object_id))
-
+    print("----------------------")
     import datetime
     import copy
     content_type = ContentType.objects.get(app_label=app,model=model)
@@ -176,9 +182,10 @@ def approve(request,app,model,object_id,operation):
     objects_name = force_text(opts.verbose_name)
 
     has_workflow = False
-    queryset = Modal.objects.filter(content_type=content_type,end__gt=datetime.date.today()).order_by('-end')
+    queryset = Modal.objects.filter(content_type=content_type, end__gt=datetime.date.today()).order_by('-end')
     cnt = queryset.count()
     workflow_modal = None
+    print(cnt)
     if cnt > 0:
         workflow_modal = queryset[0]
     else:
@@ -221,7 +228,7 @@ def approve(request,app,model,object_id,operation):
                         next_node_description = klass.description
                 if next_nodes and len(next_nodes) > 0:
                     pass
-                elif tmp_node.__next__ and tmp_node.next.count()>0:
+                elif tmp_node.next and tmp_node.next.count()>0:
                     next_nodes = [nd for nd in tmp_node.next.all()]
                 else:
                     position = all_nodes.index(tmp_node)
@@ -268,8 +275,11 @@ def approve(request,app,model,object_id,operation):
 
         return HttpResponseRedirect("/admin/%s/%s/%s"%(app,model,object_id))
 
-    if len(next_nodes) > 0 and not is_stop_node and operation == '1':
+    print(next_nodes, is_stop_node, operation)
+    if len(next_nodes) > 0 and not is_stop_node and operation == 1:
+
         for node in next_nodes:
+            print(node)
             users = compile_node_handler(request,obj,node)
             if len(users) > 0:
                 node_has_users = True
@@ -288,6 +298,10 @@ def approve(request,app,model,object_id,operation):
         node_has_users = node_has_users,
         checkbox_name = SELECTED_CHECKBOX_NAME,
     )
+
+    print(is_stop_node)
+    print(node_has_users)
+
     if next_node_description:
         context.update(dict(next_node_description=next_node_description))
     return TemplateResponse(request,"default/workflow/workflow_approve_confirmation.html",context)

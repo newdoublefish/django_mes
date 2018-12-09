@@ -18,6 +18,7 @@ def action_in(request,object_id):
     :param object_id:
     :return:
     """
+    print("-----action_in--------")
     title = _("Are you sure?")
     print(object_id)
     obj = StockIn.objects.get(id=int(object_id))

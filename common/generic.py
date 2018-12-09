@@ -123,19 +123,25 @@ class BOAdmin(admin.ModelAdmin):
         show_submit_button = False
         can_restart = False
         can_edit = False
-        # print app_info
+        print(app_info)
         if app_info:
             try:
                 modal = ContentType.objects.get(app_label='workflow',model='modal')
                 workflow_modal = modal.get_object_for_this_type(app_name=app_info['app'],model_name=app_info['model'])
+                print(workflow_modal.name)
                 has_workflow_modal = True
                 # print workflow_modal.code
+                print("11",app_info['app'],app_info['model'])
                 instance = ContentType.objects.get(app_label='workflow',model='instance')
                 workflow_instance = instance.get_object_for_this_type(modal=workflow_modal,object_id=app_info['id'])
+                print(workflow_instance.code)
                 has_workflow_instance = True
+                print("33")
                 todo = ContentType.objects.get(app_label='workflow',model='todolist')
+                print("44",todo)
                 todo_list = todo.model_class().objects.filter(inst=workflow_instance,status=0,user=request.user)
                 x = todo_list.all()
+                print("55")
 
                 if x and len(x)>0:
                     can_edit = x[0].node.can_edit
@@ -150,7 +156,9 @@ class BOAdmin(admin.ModelAdmin):
                     show_workflow_line = True
 
             except Exception as e:
+                print("--begin----")
                 print(Exception, e)
+                print("--end----")
 
         if workflow_modal and not workflow_instance:
             show_submit_button = True
@@ -170,6 +178,7 @@ class BOAdmin(admin.ModelAdmin):
         #        extra_buttons = self.extra_buttons
         #    )
         #    ctx.update(buttons)
+        print(self.extra_buttons)
         if app_info:
             if len(self.extra_buttons) > 0:
                 base_url = "/admin/" + app_info['app'] + "/" + app_info['model'] + "/" + object_id
@@ -178,6 +187,7 @@ class BOAdmin(admin.ModelAdmin):
                     a_href = base_url + '/' + extra_button['href']
                     extra_button['href'] = a_href
                 print(self.extra_buttons)
+
                 buttons = dict(
                    extra_buttons=temp_extra_buttons
                 )
@@ -185,6 +195,7 @@ class BOAdmin(admin.ModelAdmin):
                 ctx.update(buttons)
         extra_context.update(ctx)
         # print extra_context
+        print(extra_context)
         return super(BOAdmin,self).changeform_view(request,object_id,form_url,extra_context)
 
     def history_view(self, request, object_id, extra_context=None):
@@ -233,7 +244,7 @@ class BOAdmin(admin.ModelAdmin):
         return {'begin':datetime.date.today,'end':datetime.date(9999,12,31)}
 
     def save_model(self, request, obj, form, change):
-
+        print('-----------save_model---------------')
         if change:
             setattr(obj,'modifier',request.user.username)
         else:

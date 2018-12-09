@@ -10,12 +10,9 @@ import mis.views
 
 urlpatterns = [
     path('', mis.views.home),
-    path("admin/<app>/<model>)/<int:object_id>/start",
-        workflow.views.start),
-    path("admin/<app>/<model>/<int:object_id>/approve/<int:operation>",
-        workflow.views.approve),
-    path("admin/<app>/<model>/<int:object_id>/restart/<int:instance>",
-        workflow.views.restart),
+    path("admin/<str:app>/<str:model>/<int:object_id>/start", workflow.views.start),
+    path("admin/<str:app>/<str:model>/<int:object_id>/approve/<int:operation>", workflow.views.approve),
+    path("admin/<str:app>/<str:model>/<int:object_id>/restart/<int:instance>", workflow.views.restart),
     #path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('admin/invent/', include(invent.urls)),

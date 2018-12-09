@@ -88,7 +88,7 @@ class WorkflowNodeAdmin(admin.ModelAdmin):
 
 class InstanceAdmin(admin.ModelAdmin):
     list_display = ['code','modal','starter','start_time','status']
-    readonly_fields = ['code','modal','starter','start_time','status','object_id','approved_time','current_nodes']
+    # readonly_fields = ['code','modal','starter','start_time','status','object_id','approved_time','current_nodes']
 
 
 class TodoAdmin(admin.ModelAdmin):
