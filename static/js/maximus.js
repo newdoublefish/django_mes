@@ -9,7 +9,14 @@ date:2015-05-15
                 */
                 $("fieldset.workflow input[type='radio']").on('click',function(){
                     operation = $(this).val();
-                    next = "approve/"+operation;
+                    next = $("#workflow_approve").attr("href")
+                    //console.log("before:"+next)
+                    next=next.substring(0,next.length-1)
+                    console.log("after:"+next)
+                    next = next + operation
+                    //next = "{{workflow_approve_url}}"+operation
+
+                    //console.log(next)
                     $("#workflow_approve").attr("href",next);
                 });
                 try{
