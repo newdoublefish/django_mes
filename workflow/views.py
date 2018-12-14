@@ -208,9 +208,9 @@ def approve(request,app,model,object_id,operation):
     all_nodes =[x for x in Node.objects.filter(modal=workflow_modal).order_by('-id')]
     current = workflow_instance.current_nodes.all()
     current_tmp = copy.deepcopy(current[0])
-    print("operation", operation)
+    # print("operation", operation)
     if operation == 4 or operation == 3:
-        print("operation :", operation)
+        # print("operation :", operation)
         next_nodes = ['stop']
         is_stop_node = True
     else:
@@ -240,14 +240,14 @@ def approve(request,app,model,object_id,operation):
         from django.db import transaction
         val = request.POST.getlist(SELECTED_CHECKBOX_NAME)
         memo = request.POST['memo']
-        print("val--------------memo",val,memo)
+        # print("val--------------memo",val,memo)
         with transaction.atomic():
             try:
                 if delete_instance:
                     workflow_instance.delete()
                 else:
                     if is_stop_node:
-                        print("is_stop_node")
+                        # print("is_stop_node")
                         workflow_instance.status = 99
                         if operation in (3, 4):
                             workflow_instance.status = int(operation)
@@ -256,7 +256,7 @@ def approve(request,app,model,object_id,operation):
                         workflow_instance.current_nodes.clear()
                         workflow_instance.save()
                     else:
-                        print("not is_stop_node")
+                        # print("not is_stop_node")
                         workflow_instance.current_nodes.clear()
                         workflow_instance.current_nodes.add(next_nodes[0])
                         for user in User.objects.filter(id__in=val):
@@ -280,11 +280,11 @@ def approve(request,app,model,object_id,operation):
 
         return HttpResponseRedirect("/admin/%s/%s/%s"%(app,model,object_id))
 
-    print(next_nodes, is_stop_node, operation)
+    # print(next_nodes, is_stop_node, operation)
     if len(next_nodes) > 0 and not is_stop_node and (operation == 1 or operation == 3 or operation == 4):
 
         for node in next_nodes:
-            print(node)
+            # print(node)
             users = compile_node_handler(request,obj,node)
             if len(users) > 0:
                 node_has_users = True
@@ -304,8 +304,8 @@ def approve(request,app,model,object_id,operation):
         checkbox_name = SELECTED_CHECKBOX_NAME,
     )
 
-    print(is_stop_node)
-    print(node_has_users)
+    # (is_stop_node)
+    # print(node_has_users)
 
     if next_node_description:
         context.update(dict(next_node_description=next_node_description))

@@ -18,16 +18,16 @@ def action_in(request,object_id):
     :param object_id:
     :return:
     """
-    print("-----action_in--------")
+    # print("-----action_in--------")
     title = _("Are you sure?")
-    print(object_id)
+    # print(object_id)
     obj = StockIn.objects.get(id=int(object_id))
     opts = obj._meta
     objects_name = force_text(opts.verbose_name)
 
     if request.POST.get("post"):
         try:
-            print("action_in entry!!!")
+            # print("action_in entry!!!")
             obj.action_entry(request)
             messages.success(request,_('check in successfully'))
         except Exception as e:
@@ -86,7 +86,7 @@ def action_init(request,object_id):
     :param object_id:
     :return:
     """
-    print('--------- action_init')
+    # print('--------- action_init')
     title = _("Are you sure?")
     obj = InitialInventory.objects.get(id=int(object_id))
     opts = obj._meta
