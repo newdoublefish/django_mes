@@ -324,6 +324,12 @@ def restart(request,app,model,object_id,instance):
     try:
         inst = Instance.objects.get(id=int(instance))
         if request.user == inst.starter:
+            his_queryset = History.objects.filter(inst = inst)
+            for his in his_queryset:
+                his.delete()
+            todo_queryset = TodoList.objects.filter(inst = inst)
+            for todo in todo_queryset:
+                todo.delete()
             inst.delete()
             messages.success(request,_("workflow restarted success"))
         else:

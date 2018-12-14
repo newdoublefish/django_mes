@@ -125,11 +125,13 @@ class BOAdmin(admin.ModelAdmin):
         can_edit = False
         workflow_start_url = None
         workflow_approve_url = None
+        workflow_restart_url = None
         print(app_info)
         if app_info:
             try:
                 workflow_start_url = "/admin/" + app_info['app'] + "/" + app_info['model'] + "/" + object_id + '/start'
                 workflow_approve_url = "/admin/" + app_info['app'] + "/" + app_info['model'] + "/" + object_id + '/approve/1'
+                workflow_restart_url = "/admin/" + app_info['app'] + "/" + app_info['model'] + "/" + object_id + '/restart'
                 modal = ContentType.objects.get(app_label='workflow',model='modal')
                 workflow_modal = modal.get_object_for_this_type(app_name=app_info['app'],model_name=app_info['model'])
                 print(workflow_modal.name)
@@ -178,6 +180,7 @@ class BOAdmin(admin.ModelAdmin):
             show_submit_button = show_submit_button,
             workflow_start_url = workflow_start_url,
             workflow_approve_url = workflow_approve_url,
+            workflow_restart_url = workflow_restart_url,
         )
         #if len(self.extra_buttons) > 0:
         #    buttons = dict(

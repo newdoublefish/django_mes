@@ -47,7 +47,7 @@
     <h2>{% trans "workflow approve" %}</h2>
     <div style="padding:10px">
         {% if can_restart %}
-        <a class="button" href="restart/{{workflow_instance.id}}" id="workflow_restart">{% trans "restart workflow" %}</a>
+        <a class="button" href="{{workflow_restart_url}}/{{workflow_instance.id}}" id="workflow_restart">{% trans "restart workflow" %}</a>
         <p style="float:right;color:#666">{% trans "your apply has been denied,you can restart a new apply" %}</p>
         {% else %}
         <label class="control"><input type="radio" name="operation" value="1" checked> {% trans "agree" %}</label>
