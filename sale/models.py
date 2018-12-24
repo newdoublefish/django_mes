@@ -49,7 +49,7 @@ class SaleOrder(generic.BO):
         "sales man"), blank=True, null=True)
     status = models.CharField(_("status"),max_length=const.DB_CHAR_CODE_2,default='0',choices=STATUS)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s %s' % (self.code,self.title)
 
     def save(self, force_insert=False, force_update=False, using=None,
@@ -123,7 +123,7 @@ class PaymentCollection(generic.BO):
         "bank account"), blank=True, null=True)
     memo = models.TextField(_("memo"),blank=True,null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s %s'%(self.code,self.so)
 
     def save(self, force_insert=False, force_update=False, using=None,

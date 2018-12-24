@@ -38,7 +38,7 @@ class WorkOrder(generic.BO):
     attach = models.FileField(_('attach'),blank=True,null=True,help_text='工单附件，不导入明细。')
     detail = models.FileField(_('to be imported detail'),blank=True,null=True,help_text='您可导入需求明细，模板请参考文档FD0007')
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s-%s" % (self.code,self.title)
 
     def save(self, force_insert=False, force_update=False, using=None,
@@ -147,7 +147,7 @@ class Loan(generic.BO):
     pay_time = models.DateTimeField(_('pay time'),blank=True,null=True)
     is_clear = models.BooleanField(_('is clear'),default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         import decimal
         left = self.loan_amount
         left -= self.logout_amount or decimal.Decimal(0.00)
