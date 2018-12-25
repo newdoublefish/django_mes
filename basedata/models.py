@@ -199,6 +199,9 @@ class Project(generic.BO):
         verbose_name = _('project')
         verbose_name_plural = _('project')
 
+    def __str__(self):
+        return '%s' % self.name
+
 
 class Warehouse(models.Model):
     """
