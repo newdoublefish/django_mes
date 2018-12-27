@@ -27,10 +27,11 @@ def get_value_list(group):
     """
     获取值列表信息
     """
+
     if group:
         try:
             cursor = connection.cursor()
-            cursor.execute('SELECT code,name FROM basedata_valuelistitem WHERE group_code=%s AND status=1',[group])
+            cursor.execute('SELECT code,name FROM basedata_valuelistitem WHERE group_code=%s AND status=true ',[group])
             rows = cursor.fetchall()
             return tuple([(code,name) for code,name in rows])
         except Exception as e:
